@@ -1,3 +1,7 @@
+#include<stdio.h>
+int main ()
+{
+
 //variables
 int GREEN = 13;
 int YELLOW = 11;
@@ -46,3 +50,5 @@ void red_light()
   digitalWrite(YELLOW, LOW);
   digitalWrite(RED, HIGH);
 }
+}
+return 0;
