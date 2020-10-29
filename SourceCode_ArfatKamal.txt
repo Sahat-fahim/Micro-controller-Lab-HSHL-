@@ -1,11 +1,9 @@
-#include<stdio.h>
-int main ()
-{
+
 
 //variables
 int GREEN = 13;
-int YELLOW = 11;
-int RED = 9;
+int YELLOW = 12;
+int RED = 10;
 int DELAY_GREEN = 5000;
 int DELAY_YELLOW = 2000;
 int DELAY_RED = 5000;
@@ -50,5 +48,4 @@ void red_light()
   digitalWrite(YELLOW, LOW);
   digitalWrite(RED, HIGH);
 }
-}
-return 0;
+
