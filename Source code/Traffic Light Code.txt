@@ -1,0 +1,64 @@
+
+//variables
+const int GREEN = 0;
+const int YELLOW = 1;
+const int RED = 2;
+const int DELAY_GREEN = 5000;
+const int DELAY_YELLOW = 2000;
+const int DELAY_RED = 5000;
+const int state=3;
+
+
+// basic functions
+void setup()
+{
+  pinMode(GREEN, OUTPUT);
+  pinMode(YELLOW, OUTPUT);
+  pinMode(RED, OUTPUT);
+}
+
+
+void loop()
+{
+  switch (state)
+  {
+	case 3:
+	green_light();
+    delay(DELAY_GREEN);
+ 
+    
+	
+	case 4:
+	yellow_light();
+    delay(DELAY_YELLOW);
+	
+
+	case 5:
+	red_light();
+    delay(DELAY_RED);
+	
+  }
+
+}
+
+
+void green_light()
+{
+  digitalWrite(GREEN, HIGH);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(RED, LOW);
+}
+
+void yellow_light()
+{
+  digitalWrite(GREEN, LOW);
+  digitalWrite(YELLOW, HIGH);
+  digitalWrite(RED, LOW);
+}
+
+void red_light()
+{
+  digitalWrite(GREEN, LOW);
+  digitalWrite(YELLOW, LOW);
+  digitalWrite(RED, HIGH);
+}
