@@ -1,0 +1,128 @@
+//Variables
+int tGREEN = 13;
+int tYELLOW = 12;
+int tRED = 11;
+int pGREEN = 9;
+int pRED = 10;
+int BUTTON1 = 2;
+int BUTTON2 = 3;
+int greenDELAY = 5000;
+int yellowDELAY = 5000;
+int redDELAY = 5000;
+
+int state=0;
+
+
+
+// Interrupt Service Routine (ISR)
+void button1Pressed ()
+{
+  if (digitalRead (BUTTON1) == HIGH)
+  {
+    pedLights();
+    
+  }
+  
+}  // end of switchPressed
+
+
+void button2Pressed ()
+{
+  if (digitalRead (BUTTON2) == HIGH)
+  {
+    
+      busDriver();
+      
+    
+  }  
+  
+        
+}
+ 
+
+void setup ()
+{
+  
+  //pinMode (pGREEN, OUTPUT);  //update the LED
+ 
+  digitalWrite (BUTTON1, HIGH);  // internal pull-up resistor
+  attachInterrupt (digitalPinToInterrupt (BUTTON1), button1Pressed, CHANGE);  // attach interrupt handler
+
+  digitalWrite(BUTTON2, HIGH);
+  attachInterrupt(digitalPinToInterrupt (BUTTON2), button2Pressed, CHANGE); 
+ 
+  pinMode(tGREEN, OUTPUT);
+  pinMode(tYELLOW, OUTPUT);
+  pinMode(tRED, OUTPUT);
+  pinMode(pRED, OUTPUT);
+  pinMode(pGREEN, OUTPUT);
+  pinMode(BUTTON1, INPUT);
+  pinMode(BUTTON2, INPUT);
+} 
+// end of setup
+
+
+
+
+
+
+void loop()
+  
+{
+  
+  
+  
+     
+     
+     
+  switch (state)
+  {
+    
+	case 0: //Red
+    digitalWrite(tRED,HIGH);
+    
+    digitalWrite(pRED, LOW);
+    digitalWrite(pGREEN, HIGH);
+    delay(redDELAY);
+    
+	digitalWrite(tRED,LOW);
+    digitalWrite(pGREEN, LOW);
+   
+    
+    case 1: //Yellow 
+    digitalWrite(tYELLOW,HIGH);
+    digitalWrite(pRED, HIGH);
+    delay(yellowDELAY);
+	digitalWrite(tYELLOW,LOW);
+   
+    
+	case 2: //Green 
+	digitalWrite(tGREEN,HIGH);  
+    delay(greenDELAY);
+    digitalWrite(tGREEN,LOW);
+    state = 0;
+    
+   }
+}
+
+
+void pedLights()
+  
+{
+  yellowDELAY = 1000;
+  greenDELAY = 1000;
+ 
+  
+}
+  
+  
+  void busDriver()
+    
+  {
+    
+    redDELAY = 1000;
+    yellowDELAY = 1000;
+    greenDELAY = greenDELAY + 10000;
+    
+  }
+  
