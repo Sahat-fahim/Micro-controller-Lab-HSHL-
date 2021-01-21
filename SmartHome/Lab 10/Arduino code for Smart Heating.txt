@@ -1,0 +1,122 @@
+
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+#define S_Monitor 0
+#define S_up 1
+#define S_down 2
+#define idle_mode 3
+#define alarm_mode 4
+
+
+int state = S_Monitor;            
+int blueLEDstate; 
+int blueLED = 7; 
+int redLED = 13;
+int yellowLED = 6;
+void setup() {
+  Serial.begin(9600); 
+  
+
+    lcd.begin(16, 2);
+    pinMode(redLED, OUTPUT);  
+    pinMode(blueLED, OUTPUT);
+    pinMode(yellowLED, OUTPUT);  
+}
+
+void loop() {
+   switch(state) {     
+    case S_Monitor:
+      F_Monitor(); 
+    break;
+    
+    case S_up: 
+      F_up();
+    break;
+     
+    case S_down:
+      F_down();
+      break;
+     
+    case idle_mode:
+      monitoring();
+      break;
+     
+    case alarm_mode:
+     warning();
+     break;
+     
+   }
+ }
+
+void F_Monitor() 
+{		float temperature = 0.0;  
+        temperature = ((float)analogRead(A0) * 5.0 / 1024.0) - 0.5; 
+        temperature = temperature / 0.01;
+        Serial.println("temperature is");
+        Serial.println(temperature);
+     
+    lcd.setCursor(0, 0);
+    lcd.print(temperature);
+    lcd.print(" deg.C.   ");
+    
+  if (temperature < 25 && temperature >-6 ) 
+       state = S_up;
+   
+  if (temperature > 34 && temperature <46)   
+      state = S_down;
+  
+  if (temperature>24 && temperature<35)
+      state = idle_mode;
+ 
+ if(temperature>45 || temperature < -5)
+    state = alarm_mode;
+}
+
+
+void F_up()
+{
+digitalWrite(redLED,HIGH);
+digitalWrite(blueLED,LOW);
+lcd.setCursor(0, 1);
+lcd.print("Heating ON");
+state = S_Monitor;
+}
+
+void F_down()
+{
+digitalWrite(blueLED,HIGH);
+digitalWrite(redLED,LOW);
+lcd.setCursor(0, 1);
+lcd.print("Cooling ON");
+state = S_Monitor;
+}
+
+void monitoring()
+{
+	digitalWrite(blueLED,LOW);
+digitalWrite(redLED,LOW);
+lcd.setCursor(0, 1);
+lcd.print("IDLE mode");
+  digitalWrite(yellowLED,HIGH);
+  delay(400);
+digitalWrite(yellowLED,LOW);
+  delay(400);
+state = S_Monitor;
+
+}
+
+void warning()
+{
+  digitalWrite(blueLED,LOW);
+digitalWrite(redLED,LOW);
+lcd.setCursor(0, 1);
+lcd.print("WARNING!!!");
+  digitalWrite(redLED,HIGH);
+  delay(200);
+digitalWrite(redLED,LOW);
+  delay(200);
+state = S_Monitor;
+  
+}
+
