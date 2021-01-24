@@ -5,22 +5,20 @@ LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 const int standby = 0;
 const int motion = 1;
 const int bell = 6;
-
+//void Standby();
+//void Motion() ;
+//void Bell();
 int ButtonPin = A0;
 int Buzzer1 = 7;
 int MotionSensor = 8;
 int state = standby; 
-
-
 
 void setup() {
   Serial.begin(9600);
   
   pinMode(ButtonPin, INPUT);
   pinMode(Buzzer1, OUTPUT);
-  pinMode(MotionSensor, INPUT);
- 
-  
+  pinMode(MotionSensor, INPUT); 
 }
 
 void loop() {
@@ -46,12 +44,14 @@ void loop() {
 //Now comes definition
 void Standby(){
   if(digitalRead(8)==LOW && digitalRead(ButtonPin)==LOW){
-    lcd.print("Standby");
+    lcd.setCursor(0, 1);
+    lcd.print("     Standby");
   }
 }
 void Motion() {
       
     if (digitalRead(8) == HIGH) {
+    lcd.setCursor(0, 1);
     lcd.print("Motion Detected");
   }
 }
